@@ -35,3 +35,6 @@ INSERT INTO db_a3.roles (role_id, description, "role_name")
 SELECT nextval('db_a3.auth');
 INSERT INTO db_a3.roles (role_id, description, "role_name") 
 	VALUES (58, 'Интернет-пользователь', 'not-identity-principal');
+
+
+{"sql" => "select ur.password, rs.role_name from db_a3.users as ur, db_a3.user2role as u2r, db_a3.roles as rs where u2r.user_id=ur.user_id and u2r.role_id=rs.role_id and ur.login=?","data-source" => "PostgresDS","attribute-mapping" => [{"to" => "groups","index" => 2}],"clear-password-mapper" => {"password-index" => 1}}
