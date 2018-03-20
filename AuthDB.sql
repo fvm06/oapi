@@ -37,4 +37,24 @@ INSERT INTO db_a3.roles (role_id, description, "role_name")
 	VALUES (58, 'Интернет-пользователь', 'not-identity-principal');
 
 
-{"sql" => "select ur.password, rs.role_name from db_a3.users as ur, db_a3.user2role as u2r, db_a3.roles as rs where u2r.user_id=ur.user_id and u2r.role_id=rs.role_id and ur.login=?","data-source" => "PostgresDS","attribute-mapping" => [{"to" => "groups","index" => 2}],"clear-password-mapper" => {"password-index" => 1}}
+{"sql" => "select ur.password, rs.role_name from db_a3.users as ur, db_a3.user2role as u2r, db_a3.roles as rs where u2r.user_id=ur.user_id and u2r.role_id=rs.role_id and ur.login=?","dat
+a-source" => "PostgresDS","attribute-mapping" => [{"to" => "groups","index" => 2}],"clear-password-mapper" => {"password-index" => 1}}
+
+
+/subsystem=undertow/application-security-domain=other:add(
+    http-authentication-factory=application-http-authentication)
+
+ ./subsystem=elytron/service-loader-http-server-mechanism-factory=
+    custom-factory:add(module=org.wildfly.security.examples.custom-http)
+
+./subsystem=elytron/http-authentication-factory=custom-mechanism:
+    add(http-server-mechanism-factory=custom-factory, 
+    security-domain=ApplicationDomain, 
+    mechanism-configurations=[{mechanism-name=CUSTOM_MECHANISM}])
+
+
+ ./subsystem=undertow/application-security-domain=other:
+    write-attribute(name=http-authentication-factory, value=custom-mechanism)
+./subsystem=undertow/application-security-domain=other:
+    write-attribute(name=override-deployment-config, value=true)
+
