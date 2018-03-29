@@ -41,6 +41,8 @@ INSERT INTO db_a3.roles (role_id, description, "role_name")
 a-source" => "PostgresDS","attribute-mapping" => [{"to" => "groups","index" => 2}],"clear-password-mapper" => {"password-index" => 1}}
 
 
+
+
 /subsystem=undertow/application-security-domain=other:add(
     http-authentication-factory=application-http-authentication)
 
@@ -57,4 +59,17 @@ a-source" => "PostgresDS","attribute-mapping" => [{"to" => "groups","index" => 2
     write-attribute(name=http-authentication-factory, value=custom-mechanism)
 ./subsystem=undertow/application-security-domain=other:
     write-attribute(name=override-deployment-config, value=true)
+
+./subsystem=elytron/custom-realm-mapper=add(module=jk.demo.)
+
+module add --name=org.wildfly.security.oapiauth.custom-http --resources=/home/vlad/NetBeansProjects/elytron-examples-master/simple-http-mechanism/target/oapiauth-http-mechanism-1.00.00.jar --dependencies=org.wildfly.security.elytron,javax.api
+
+module remove --name=org.wildfly.security.oapiauth.custom-http --resources=/home/vlad/NetBeansProjects/elytron-examples-master/simple-http-mechanism/target/oapiauth-http-mechanism-1.00.00.jar --dependencies=org.wildfly.security.elytron,javax.api
+
+module add --name=jk.demo.my-custom-realm-mapper --resources=/home/vlad/NetBeansProjects/custom-elytron-realm-mapper/target/my-custom-realm-mapper-1.0-SNAPSHOT.jar --dependencies=org.wildfly.security.elytron
+
+module remove --name=jk.demo.my-custom-realm-mapper --resources=/home/vlad/NetBeansProjects/custom-elytron-realm-mapper/target/my-custom-realm-mapper-1.0-SNAPSHOT.jar --dependencies=org.wildfly.security.elytron
+
+/subsystem=elytron/custom-realm-mapper=myRealmMapper:add(module=jk.demo.my-custom-realm-mapper, class-name=MyRealmMapper)
+
 
