@@ -72,4 +72,4 @@ module remove --name=jk.demo.my-custom-realm-mapper --resources=/home/vlad/NetBe
 
 /subsystem=elytron/custom-realm-mapper=myRealmMapper:add(module=jk.demo.my-custom-realm-mapper, class-name=MyRealmMapper)
 
-
+eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJpc3N1ZXIud2lsZGZseS5vcmciLCJzdWIiOiJlbHl0cm9uQHdpbGRmbHkub3JnIiwiZXhwIjoyMDUxMjIyMzk5LCJhdWQiOiJlbHl0cm9uLXRlc3QiLCJncm91cHMiOiJkZWJpdC1jYXJkLWxlYWQifQ.
